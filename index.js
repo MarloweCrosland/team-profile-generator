@@ -1,4 +1,4 @@
-// const generateHTML = require('./src/generateHTML');
+const generateHTML = require('./src/generateHTML');
 const fs = require('fs');
 const inquirer = require('inquirer');
 //team profiles
@@ -131,7 +131,11 @@ const writeFile = data => {
 
 promptManager()
 .then(promptEmployee)
-.then(teamArray => {return generateHTML(teamArray)})
-.then(pageHTML => {return writeFile(pageHTML)})
+.then(memberInfoArr => {
+    return generateHTML(memberInfoArr);
+})
+.then(pageHTML => {
+    return writeFile(pageHTML);
+})
 
 
