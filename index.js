@@ -1,4 +1,4 @@
-const generateHTML = require('./src/generateHTML');
+const generateHTML = require('./src/genHTML');
 const fs = require('fs');
 const inquirer = require('inquirer');
 //team profiles
@@ -7,12 +7,12 @@ const Manager = require('./lib/Manager');
 const Intern = require('./lib/Intern');
 
 
-//array to hold all future added team member information
+//array to hold all future team member information
 const memberInfoArr = [];
 
 
 
-
+//manager info prompts
 const promptManager = () => {
 
     return inquirer.prompt([
@@ -113,18 +113,18 @@ const promptEmployee = () => {
 };
 
 
-//writing file to html page using fs
-const writeFile = data => {
-    fs.writeFile('./dist.index.html', data, err =>{
-        //error handling
-        if (err){console.log(err);
-        return;
-        } else {
-            //no error = file created in dist folder
-            console.log('check dist folder for file')
-        }
-    })
-}
+// //writing file to html page using fs
+// const writeFile = data => {
+//     fs.writeFile('./dist.index.html', data, err =>{
+//         //error handling
+//         if (err){console.log(err);
+//         return;
+//         } else {
+//             //no error = file created in dist folder
+//             console.log('check dist folder for file')
+//         }
+//     })
+// }
 
 
 
@@ -132,10 +132,10 @@ const writeFile = data => {
 promptManager()
 .then(promptEmployee)
 .then(memberInfoArr => {
-    return generateHTML(memberInfoArr);
+    return genPage(memberInfoArr);
 })
-.then(pageHTML => {
-    return writeFile(pageHTML);
-})
+// .then(pageHTML => {
+//     return writeFile(pageHTML);
+// })
 
 
