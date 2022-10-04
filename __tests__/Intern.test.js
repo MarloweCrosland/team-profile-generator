@@ -1,11 +1,19 @@
-const Intern = require('../lib/Intern.js');
+const Intern = require("../lib/Intern");
 
-test('creates manager object', () => {
-    const intern = new Intern('marlowe', '12', 'hello.com', 'school');
-
-    expect(intern.name.length).toBeGreaterThan(0);
-    expect(intern.id);
-    expect(intern.email);
-    expect(intern.school.length).toBeGreaterThan(0);
+test("Can set school via constructor", () => {
+  const testValue = "UCLA";
+  const e = new Intern("Foo", 1, "test@test.com", testValue);
+  expect(e.school).toBe(testValue);
 });
 
+test("getRole() should return \"Intern\"", () => {
+  const testValue = "Intern";
+  const e = new Intern("Foo", 1, "test@test.com", "UCLA");
+  expect(e.getRole()).toBe(testValue);
+});
+
+test("Can get school via getSchool()", () => {
+  const testValue = "UCLA";
+  const e = new Intern("Foo", 1, "test@test.com", testValue);
+  expect(e.getSchool()).toBe(testValue);
+});
