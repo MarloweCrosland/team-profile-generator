@@ -29,7 +29,7 @@ const generateTeam = team => {
       <li class="list-group-item">${engineer.getRole()}</li>
       <li class="list-group-item">${engineer.getId()}</li>
       <li class="list-group-item">${engineer.getEmail()}</li>
-      <li class="list-group-item">${engineer.getOffice()}</li>
+      <li class="list-group-item">${engineer.getGithub()}</li>
     </ul>
   </div>
     `;
