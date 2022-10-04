@@ -16,7 +16,7 @@ this application uses command line inputs to take in user responses, and creates
 - [Questions](#questions)
 
 ## Installation
-to use this application, run npm i then answer the questions prompted in your terminal.
+to use this application, run "npm i" to install dependencies, run "node index.js" to start prompts, then answer the questions prompted in your terminal.
         
 ## Usage
 
