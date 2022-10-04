@@ -1,7 +1,7 @@
 const generateHTML = require('./src/genHTML');
 const fs = require('fs');
 const inquirer = require('inquirer');
-//team profiles
+//team members
 const Engineer = require('./lib/Engineer');
 const Manager = require('./lib/Manager');
 const Intern = require('./lib/Intern');
@@ -9,10 +9,13 @@ const Intern = require('./lib/Intern');
 
 //array to hold all future team member information
 const memberInfoArr = [];
+//array to hold id
+const idArray = [];
 
 
-
-//manager info prompts
+function app() {
+//manager info prompts collect information about the manager, adds it to
+//manager array then points to promptTeam()
 const promptManager = () => {
 
     return inquirer.prompt([
@@ -20,21 +23,54 @@ const promptManager = () => {
         name: 'name',
         type: 'input',
         message: 'What is the managers name?',
+        validate: answer => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter at least one character.";
+          }
     },
     {
         type: 'input',
         message: 'Enter manager employee ID',
         name: 'id',
+        validate: answer => {
+            const pass = answer.match(
+              /^[1-9]\d*$/
+            );
+            if (pass) {
+              return true;
+            }
+            return "Please enter a positive number greater than zero.";
+          }
     
     },
     {   type: 'input',
         message: 'Enter manager email address',
         name: 'email',
+        validate: answer => {
+            const pass = answer.match(
+              /\S+@\S+\.\S+/
+            );
+            if (pass) {
+              return true;
+            }
+            return "Please enter a valid email address.";
+          }
     },
     {
         type: 'input',
         message: 'Enter manager office number',
         name: 'office',
+        validate: answer => {
+            const pass = answer.match(
+              /^[1-9]\d*$/
+            );
+            if (pass) {
+              return true;
+            }
+            return "Please enter a positive number greater than zero.";
+          }
     }])
 .then(managerInfo => { 
    const {name, id, email, office} = managerInfo;
@@ -42,100 +78,55 @@ const promptManager = () => {
     //push to team member array
     memberInfoArr.push(manager);
     console.log(manager);
+    promptTeam();
 });
 
 };
 
 
 
-const promptEmployee = () => {
-
+const promptTeam = () => {
+//promptTeam asks what type of employee we will add next, the selection
+//determines what function is called next.
     console.log('------ adding new employee ------')
 
 
-    return inquirer.prompt ([
+    inquirer.prompt ([
         {
             type: 'list',
             name: 'role',
             message: "what is the employee's role?",
-            choices: ['Engineer', 'Intern']
+            choices: ['Engineer', 'Intern', 'Im finished building my team']
 
-        },
-        {
-            name: 'name',
-            type: 'input',
-            message: 'What is this employees name?',
-        },
-        {
-            type: 'input',
-            message: 'Enter employee ID',
-            name: 'id',
+        }
+    ]).then(userChoice => {
+        switch (userChoice.role) {
+            case "Engineer":
+                addEngineer();
+                break;
+            case "Intern":
+                addIntern();
+                break;
+            default:
+                buildTeam();
+        }
+    });
+}
+    function addEngineer() {
+
+    }
+
+    function addIntern() {
+
+    }
+
+    function buildTeam() {
         
-        },
-        {   type: 'input',
-            message: 'Enter employee email address',
-            name: 'email',
-        },
-        {
-            type: 'input',
-            name: 'github',
-            message: 'please enter the engineer github username',
-            //will only be asked if the user selected engineer as the role
-            when: (input => input.role === 'Engineer')
-        },
-        {
-            type: 'input',
-            name: 'school',
-            message: 'please enter the interns school',
-            // will only be asked if the user selected intern as the role
-            when: (input => input.role === 'Intern')
-        }
-    ]).then(employeeData => {
-        let {role, name, id, email, github, school} = employeeData;
-
-        /// if the user selected engineer, a new employee is 
-        //created with these parameters
-        if (role === 'Engineer'){
-            employee = new Engineer (name, id, email, github);
-            console.log(employee);
-        /// if the user selected intern, a new employee is
-        //created with these parameters
-        } else if (role === 'Intern') {
-            employee = new Intern (name, id, email, school);
-            console.log(employee);
-        }
-        //push new employee to team array
-        memberInfoArr.push(employee);
-    })
+    }
+    
 
 
-
+    promptManager()
 };
 
-
-// //writing file to html page using fs
-// const writeFile = data => {
-//     fs.writeFile('./dist.index.html', data, err =>{
-//         //error handling
-//         if (err){console.log(err);
-//         return;
-//         } else {
-//             //no error = file created in dist folder
-//             console.log('check dist folder for file')
-//         }
-//     })
-// }
-
-
-
-
-promptManager()
-.then(promptEmployee)
-.then(memberInfoArr => {
-    return genPage(memberInfoArr);
-})
-// .then(pageHTML => {
-//     return writeFile(pageHTML);
-// })
-
-
+app();
