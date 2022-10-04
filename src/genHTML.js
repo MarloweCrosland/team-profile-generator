@@ -1,123 +1,112 @@
-//create individual card items before adding them
-//to an array to plug into the final html output
+// create the team
+const generateTeam = team => {
 
-//manager element
-const genManager = function (manager) {
+  // create the manager html
+  const generateManager = manager => {
+      return `
+      <div class="card" style="width: 18rem;">
+      <div class="card-header">
+        ${manager.getName()}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">${manager.getRole()}</li>
+        <li class="list-group-item">${manager.getId()}</li>
+        <li class="list-group-item">${manager.getEmail()}</li>
+        <li class="list-group-item">${manager.getOffice()}</li>
+      </ul>
+    </div>
+      `;
+  };
+
+  // create the html for engineers
+  const generateEngineer = engineer => {
     return `
-    <div class="card">
-  <div class="card-header">
-    <h2>Manager</h2>
+    <div class="card" style="width: 18rem;">
+    <div class="card-header">
+      ${engineer.getName()}
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">${engineer.getRole()}</li>
+      <li class="list-group-item">${engineer.getId()}</li>
+      <li class="list-group-item">${engineer.getEmail()}</li>
+      <li class="list-group-item">${engineer.getOffice()}</li>
+    </ul>
   </div>
-  <div class="card-body">
-    <h5 class="card-title">${manager.name}</h5>
-    <p class="card-text">${manager.id}</p>
-    <p class="card-text">${manager.email}</p>
-    <p class="card-text">${manager.office}</p>
-  </div>
-</div>
-    `
+    `;
+  };
+
+  // create the html for interns
+  const generateIntern = intern => {
+      return `
+      <div class="card" style="width: 18rem;">
+      <div class="card-header">
+        ${intern.getName()}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">${intern.getRole()}</li>
+        <li class="list-group-item">${intern.getId()}</li>
+        <li class="list-group-item">${intern.getEmail()}</li>
+        <li class="list-group-item">${intern.getSchool()}</li>
+      </ul>
+    </div>
+      `;
+  };
+
+  const html = [];
+
+  html.push(team
+      .filter(employee => employee.getRole() === "Manager")
+      .map(manager => generateManager(manager))
+  );
+  html.push(team
+      .filter(employee => employee.getRole() === "Engineer")
+      .map(engineer => generateEngineer(engineer))
+      .join("")
+  );
+  html.push(team
+      .filter(employee => employee.getRole() === "Intern")
+      .map(intern => generateIntern(intern))
+      .join("")
+  );
+
+  return html.join("");
+
 }
 
-//engineer element
-const genEngineer = function (engineer) {
-    return `
-    <div class="card">
-  <div class="card-header">
-    <h2>Engineer</h2>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">${engineer.name}</h5>
-    <p class="card-text">${engineer.id}</p>
-    <p class="card-text">${engineer.email}</p>
-    <p class="card-text">${engineer.office}</p>
-  </div>
-</div>
-    `
-}
+// export function to generate entire page
+module.exports = team => {
 
-
-//intern element
-const genIntern = function (intern) {
-    return `
-    <div class="card">
-  <div class="card-header">
-    <h2>Intern</h2>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">${intern.name}</h5>
-    <p class="card-text">${intern.id}</p>
-    <p class="card-text">${intern.email}</p>
-    <p class="card-text">${intern.office}</p>
-  </div>
-</div>
-    `
-}
-
-
-//combine all elements to send to genPage
-const genHTML = (x) => {
-    cardArray = [];
-
-    const role = data.map(employee.getRole());
-
-    if (role === 'Manager') {
-      const managerCard = generateManager(employee);
-
-      cardArray.push(managerCard);
-    }
-  
-    if (role === 'Engineer') {
-          const engineerCard = generateEngineer(employee);
-
-          cardArray.push(engineerCard);
-    }
-
-      
-    if (role === 'Intern') {
-          const internCard = generateIntern(employee);
-
-          cardArray.push(internCard);
-    }
-
-    const employeeCards = cardArray.join('')
-
-    const generateTeam = genPage(employeeCards);
-    return generateTeam
-
-    
-}
-
-
-const genPage = (cardArray) => {
-    return `
-    <!doctype html>
+  return `
+  <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Team Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  </head>
-  <body>
-      <header>
-          <nav class="navbar" id="navbar">
-              <span class="navbar-brand mb-0 h1 w-100 text-center" id="navbar-text">Team Profile</span>
-          </nav>
-      </header>
-      <main>
-          <div class="container">
-              <div class="row justify-content-center" id="team-cards">
-                  <!--Team Cards-->
-                  ${cards}
-              </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>My Team</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/c502137733.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-12 jumbotron mb-3 team-heading">
+              <h1 class="text-center">My Team</h1>
           </div>
-      </main>
-      
-  </body>
-</html>`
-
-}
-
-module.exports = genPage;
-
-
+      </div>
+  </div>
+  <div class="container">
+      <div class="row">
+          <div class="team-area col-12 d-flex justify-content-center">
+              ${generateTeam(team)}
+          </div>
+      </div>
+  </div>
+</body>
+</html>
+  `;
+};

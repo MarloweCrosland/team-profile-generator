@@ -1,10 +1,11 @@
 {
   "name": "team-profile-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "object oriented programming practice",
   "main": "index.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "test": "test"
   },
   "scripts": {
     "test": "jest"
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/MarloweCrosland/team-profile-generator#readme",
   "dependencies": {
+    "bootstrap": "^5.2.2",
     "inquirer": "^8.2.4"
   },
   "devDependencies": {
