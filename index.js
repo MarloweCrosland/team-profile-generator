@@ -16,6 +16,8 @@ const idArray = [];
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+const render = require("./src/genHTML.js");
+
 function app() {
   //manager info prompts collect information about the manager, adds it to
   //manager array then points to promptTeam()
@@ -248,7 +250,7 @@ function app() {
     if (!fs.existsSync(OUTPUT_DIR)) {
       fs.mkdirSync(OUTPUT_DIR);
     }
-    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+    fs.writeFileSync(outputPath, render(memberInfoArr), "utf-8");
   }
 
   promptManager();
